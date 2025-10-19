@@ -1,8 +1,32 @@
-console.log('Hello World');
-export default function Home() {
-    
-    return <div> hello this is the second statemnet
-     <div>Welcome to Next.js!</div>
+import Link from "next/link";
 
-    </div>;
+export default function Home({data}: {data: {recipes: {title: string}[]} | null
+}) {
+  // If data is missing, fallback to empty array
+  
+  const recipes = data?.recipes || [];
+  return (
+    <div>
+      <p>Hello, this is the second statement</p>
+      <div>Welcome to Next.js!</div>
+
+      {recipes.length > 0 ? (
+        <Link href="https://nextjs.org">
+          {recipes[0].title}
+        </Link>
+      ) : (
+        <p>No recipes found</p>
+      )}
+    </div>
+  );
+}
+
+export async function getStaticProps() {
+  return {
+    props: {
+      data: {
+        recipes: [{ title: "This is some static data" }],
+      },
+    },
+  };
 }
